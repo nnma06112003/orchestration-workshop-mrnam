@@ -1,0 +1,76 @@
+version: "3.8"
+
+services:
+  worker:
+    image: minhanh06112003/worker
+    deploy:
+      replicas: 15
+      update_config:
+        parallelism: 2
+        delay: 5s
+      restart_policy:
+        condition: on-failure
+    networks:
+      - coinswarmnet
+
+  rng:
+    image: minhanh06112003/rng
+    deploy:
+      replicas: 10
+      update_config:
+        parallelism: 2
+        delay: 5s
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "8001:80"    
+    networks:
+      - coinswarmnet
+
+  hasher:
+    image: minhanh06112003/hasher
+    deploy:
+      replicas: 10
+      update_config:
+        parallelism: 2
+        delay: 5s
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "8002:80"    
+    networks:
+      - coinswarmnet
+
+  webui:
+    image: minhanh06112003/webui
+    deploy:
+      replicas: 5
+      update_config:
+        parallelism: 1
+        delay: 5s
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "8000:80"   # Publish cổng 80 của container ra cổng 8080 trên node
+    networks:
+      - coinswarmnet
+
+  redis:
+    image: redis:latest
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 5s
+      restart_policy:
+        condition: on-failure
+    networks:
+      - coinswarmnet
+    # Không publish cổng vì chỉ cần nội bộ
+
+networks:
+  coinswarmnet:
+    driver: overlay
+    attachable: true
+    driver_opts:
+      encrypted: "true"
