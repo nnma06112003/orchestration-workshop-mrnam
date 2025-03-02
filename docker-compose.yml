@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   worker:
-    image: minhanh06112003/worker
+    image: minhanh06112003/worker:coinswarm
     deploy:
       replicas: 15
       update_config:
@@ -14,7 +14,7 @@ services:
       - coinswarmnet
 
   rng:
-    image: minhanh06112003/rng
+    image: minhanh06112003/rng:coinswarm
     deploy:
       replicas: 10
       update_config:
@@ -28,7 +28,7 @@ services:
       - coinswarmnet
 
   hasher:
-    image: minhanh06112003/hasher
+    image: minhanh06112003/hasher:coinswarm
     deploy:
       replicas: 10
       update_config:
@@ -42,7 +42,7 @@ services:
       - coinswarmnet
 
   webui:
-    image: minhanh06112003/webui
+    image: minhanh06112003/webui:coinswarm
     deploy:
       replicas: 5
       update_config:
