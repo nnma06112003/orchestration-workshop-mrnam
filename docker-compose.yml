@@ -78,7 +78,4 @@ services:
 
 networks:
   coinswarmnet:
-    driver: overlay
-    attachable: true
-    driver_opts:
-      encrypted: "true"
+    external: true
