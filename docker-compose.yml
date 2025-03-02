@@ -10,6 +10,8 @@ services:
         delay: 5s
       restart_policy:
         condition: on-failure
+    depends_on:
+      - hasher
     networks:
       - coinswarmnet
 
@@ -23,7 +25,9 @@ services:
       restart_policy:
         condition: on-failure
     ports:
-      - "8001:80"    
+      - "8001:80" 
+    depends_on:
+      - redis   
     networks:
       - coinswarmnet
 
@@ -37,7 +41,9 @@ services:
       restart_policy:
         condition: on-failure
     ports:
-      - "8002:80"    
+      - "8002:80" 
+    depends_on:
+      - rng     
     networks:
       - coinswarmnet
 
@@ -52,6 +58,8 @@ services:
         condition: on-failure
     ports:
       - "8000:80"   # Publish cổng 80 của container ra cổng 8080 trên node
+    depends_on:
+      - worker
     networks:
       - coinswarmnet
 
