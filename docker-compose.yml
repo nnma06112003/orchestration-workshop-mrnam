@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.9"
 
 services:
   worker:
@@ -11,7 +11,8 @@ services:
       restart_policy:
         condition: on-failure
     depends_on:
-      - hasher
+      hasher:
+        condition: service_healthy
     networks:
       - coinswarmnet
 
@@ -27,7 +28,8 @@ services:
     ports:
       - "8001:80" 
     depends_on:
-      - redis   
+      redis:
+        condition: service_healthy   
     networks:
       - coinswarmnet
 
@@ -43,7 +45,8 @@ services:
     ports:
       - "8002:80" 
     depends_on:
-      - rng     
+      rng:
+        condition: service_healthy     
     networks:
       - coinswarmnet
 
@@ -59,7 +62,8 @@ services:
     ports:
       - "8000:80"   # Publish cổng 80 của container ra cổng 8080 trên node
     depends_on:
-      - worker
+      worker:
+        condition: service_healthy
     networks:
       - coinswarmnet
 
